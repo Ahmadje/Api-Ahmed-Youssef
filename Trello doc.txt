@@ -1,0 +1,111 @@
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+   Get your credential values and try the first Trello API.
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+ API : HTTP method -> GET | https://api.trello.com/1/members/me?boards=open&key=2cf692f10d97054646d7c82a28007c5e&token=cf6babcba7d68b35b4d79f6d39c44e3b2850128637cea3f6f624183ecff0f218
+                        ->  {{URI}}/members/me?boards=open&key={{Key}}&token={{Token}}
+						
+						
+ Description : You need to make sure that this subobject is shown inside the response (which contains boards)
+ 
+ Response Body :
+ 
+    "boards": [
+        {
+            "id": "634313882b98f6035dd4486b",
+            "name": "Main Board",
+            "closed": false,
+            "idOrganization": "63431373b25c200276d1b7f2",
+            "pinned": false
+        },
+        {
+            "id": "63431739a9f5030329f40c5d",
+            "name": "New-Board",
+            "closed": false,
+            "idOrganization": "63431373b25c200276d1b7f2",
+            "pinned": false
+        },
+        {
+            "id": "6343176bf2e295029e8622a8",
+            "name": "New-Board",
+            "closed": false,
+            "idOrganization": "63431373b25c200276d1b7f2",
+            "pinned": false
+        }
+    ]
+	
+------------------------------------------------------------------------------------
+  Write and execute your test cases on Trello's APIs using Postman.
+------------------------------------------------------------------------------------
+                              Create A Board
+							  
+API : HTTP method -> POST |https://api.trello.com/1/boards/?name={{Name}}&key={{Key}}&token={{Token}}							  
+							  
+Description : confirm its default value of closed is false
+Test Case: 1 
+Expected Result: false
+Actual Result: false
+Status: Pass
+
+Description : confirm its default value of permissionLevel = private
+Test Case: 2 
+Expected Result: private
+Actual Result: private
+Status: Pass
+
+Description : confirm its canBePublic is true
+Test Case: 3
+Expected Result: true
+Actual Result: true
+Status: Pass
+
+Description : confirm its canInvite is true
+Test Case: 4
+Expected Result: true
+Actual Result: true
+Status: Pass		
+					  
+   
+------------------------------------------------------------------------------------
+                              Get Members
+							  
+API : HTTP method -> GET |https://api.trello.com/1/members/me?boards=open&key={{Key}}&token={{Token}}							  
+
+Description :  verify that number of boards in the response is above 1
+Test Case 1 : number of boards is above 1
+Expected Result: 200 ok
+Actual Result: 200 0k
+Status: Pass 
+
+/*
+  Get FirstID 
+*/
+
+pm.globals.set("FirstBoardID", jsonData.boards[0].id);
+pm.globals.get("FirstBoardID");
+
+/*
+  Get LastID board
+*/
+pm.globals.set("LastBoardID", jsonData.boards[jsonData.boards.length-1].id);
+pm.globals.get("LastBoardID");
+------------------------------------------------------------------------------------
+                             Delete A Board
+
+API : HTTP method -> DELETE | https://api.trello.com/1/boards/:id?key={{Key}}&token={{Token}}							  
+
+Description :  The status code is 200.
+Test Case 1 : response should be 200 OK
+Expected Result: 200 ok
+Actual Result: 200 0k
+Status: Pass
+
+Description :  Response Body should contain a meaningful message like "board is removed successfully".
+Test Case 1 : Response Body  contain a "board is removed successfully".
+Expected Result: true
+Actual Result: true
+Status: Pass 	
+------------------------------------------------------------------------------------
+						 
+							 
